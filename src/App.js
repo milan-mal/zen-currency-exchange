@@ -6,42 +6,29 @@ import { useState, useEffect } from 'react';
 function App() {
 
   const defaultCurrency = 'EUR'
-  var convertedAmount = 0
 
   const [amount, setAmount] = useState('')
   const [currency, setCurrency] = useState(defaultCurrency)
   const [conversionObject, setConversionObject] = useState({})
-  // const [convertedAmount, setConvertedAmount] = useState(0);
+  const [convertedAmount, setConvertedAmount] = useState(0);
 
   useEffect(() => {
     if (amount !== ''){
       setTimeout(() => {
         currencyService
           .convert(currency, amount)
-          .then(function(object){
+          .then(function (object) {
             setConversionObject(object)
-          // .then(function (object) {
-          //   setConversionObject(object);
-          //   const rateForAmount = object.rates && object.rates[currency] ? object.rates[currency].rate_for_amount : 0;
-          //   setConvertedAmount(rateForAmount);
+            const rateForAmount = object.rates && object.rates[currency] ? object.rates[currency].rate_for_amount : 0
+            setConvertedAmount(rateForAmount)
           })
-          // .catch((error) => {
-          //   console.log(error)
-          //   setConvertedAmount(0)
-          // })
+          .catch((error) => {
+            console.log(error)
+            setConvertedAmount(0)
+          })
       }, 2000)
     }
   }, [currency, amount])
-    
-  console.log('amount', amount)
-  console.log('currency', currency)
-  console.log('conversionObject', conversionObject)
-
-  try{
-    convertedAmount = conversionObject.rates ? conversionObject.rates[`${currency}`].rate_for_amount : 0
-  } catch (error) {
-    console.log(error)
-  }  
 
   const handleAmountChange = (event) => {
     const inputAmount = event.target.value
