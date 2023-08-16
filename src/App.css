@@ -36,6 +36,10 @@
   color: white;
 }
 
+.App-table-history {
+  padding: 5vh;
+}
+
 .App-form-amount {
   display: flex;
   flex-direction: row;

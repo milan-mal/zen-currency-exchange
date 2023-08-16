@@ -7,6 +7,10 @@ function App() {
 
   const defaultCurrency = 'EUR'
 
+  var savedAmount = ''
+  var savedcurrency = ''
+  var savedConversion = ''
+
   const [amount, setAmount] = useState('')
   const [currency, setCurrency] = useState(defaultCurrency)
   const [conversionObject, setConversionObject] = useState({})
@@ -52,9 +56,9 @@ function App() {
           Currency exchange
         </h1>
       </header>
-      <div className="App-body">
+      <div className="App-body" >
         <form onSubmit={addExchange} >
-          <div className="App-form-amount">
+          <div className="App-form-amount" >
             <div>
               amount <input
                   type="text"
@@ -76,14 +80,23 @@ function App() {
             </div>
           </div>
           <div>
-              selected values: {amount} {currency}
-          </div>
-          <div>
               amount in USD: {convertedAmount}
           </div>
           <div>
             <button type='submit' >Save</button>
           </div>
+          <table className="App-table-history" >
+            <tr>
+              <th>Amount</th>
+              <th>Currency</th>
+              <th>Amount in USD</th>
+            </tr>
+            <tr>
+              <td>1</td>
+              <td>EUR (example)</td>
+              <td>1.1</td>
+            </tr>
+          </table>
         </form>
       </div>
     </div>
