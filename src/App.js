@@ -7,30 +7,25 @@ function App() {
 
   const defaultCurrency = 'EUR'
 
-  var savedAmount = ''
-  var savedcurrency = ''
-  var savedConversion = ''
-
   const [amount, setAmount] = useState('')
   const [currency, setCurrency] = useState(defaultCurrency)
   const [conversionObject, setConversionObject] = useState({})
-  const [convertedAmount, setConvertedAmount] = useState(0);
+  const [convertedAmount, setConvertedAmount] = useState(0)
+  const [conversionHistory, setConversionHistory] = useState([])
 
   useEffect(() => {
     if (amount !== ''){
-      setTimeout(() => {
-        currencyService
-          .convert(currency, amount)
-          .then(function (object) {
-            setConversionObject(object)
-            const rateForAmount = object.rates && object.rates[currency] ? object.rates[currency].rate_for_amount : 0
-            setConvertedAmount(rateForAmount)
-          })
-          .catch((error) => {
-            console.log(error)
-            setConvertedAmount(0)
-          })
-      }, 2000)
+      currencyService
+        .convert(currency, amount)
+        .then(function (object) {
+          setConversionObject(object)
+          const rateForAmount = object.rates && object.rates[currency] ? object.rates[currency].rate_for_amount : 0
+          setConvertedAmount(rateForAmount)
+        })
+        .catch((error) => {
+          console.log(error)
+          setConvertedAmount(0)
+        })
     }
   }, [currency, amount])
 
@@ -45,8 +40,22 @@ function App() {
     setCurrency(event.target.value)
   }
 
-  const addExchange = () => {
+  const addConversion = (event) => {
+    event.preventDefault()
+    console.log('button clicked', event.target)
 
+    const newConversion = {
+      amount: amount,
+      currency: currency,
+      convertedAmount: convertedAmount
+    }
+
+    setConversionHistory([...conversionHistory, newConversion])
+
+    setAmount('')
+    setCurrency(defaultCurrency)
+    setConversionObject({})
+    setConvertedAmount(0)
   }
 
   return (
@@ -57,7 +66,7 @@ function App() {
         </h1>
       </header>
       <div className="App-body" >
-        <form onSubmit={addExchange} >
+        <form onSubmit={addConversion} >
           <div className="App-form-amount" >
             <div>
               amount <input
@@ -86,16 +95,22 @@ function App() {
             <button type='submit' >Save</button>
           </div>
           <table className="App-table-history" >
-            <tr>
-              <th>Amount</th>
-              <th>Currency</th>
-              <th>Amount in USD</th>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>EUR (example)</td>
-              <td>1.1</td>
-            </tr>
+            <thead>
+              <tr>
+                <th>Amount</th>
+                <th>Currency</th>
+                <th>Amount in USD</th>
+              </tr>
+            </thead>
+            <tbody>
+              {conversionHistory.map((conversion, index) => (
+                <tr key={index}>
+                  <td>{conversion.amount}</td>
+                  <td>{conversion.currency}</td>
+                  <td>{conversion.convertedAmount}</td>
+                </tr>
+              ))}
+            </tbody>
           </table>
         </form>
       </div>
