@@ -68,15 +68,17 @@ function App() {
       <div className="App-body" >
         <form onSubmit={addConversion} >
           <div className="App-form-amount" >
-            <div>
-              amount <input
+            <div className="App-form-item" >
+              <div className="App-form-item" >amount: </div>
+              <input
+                  className="App-form-item"
                   type="text"
                   inputMode="numeric"
                   value={amount}
                   onChange={handleAmountChange}
               />
             </div>
-            <div>
+            <div className="App-form-item" >
               <select
                 id="currencies"
                 name="currencies"
@@ -97,9 +99,9 @@ function App() {
           <table className="App-table-history" >
             <thead>
               <tr>
-                <th>Amount</th>
-                <th>Currency</th>
-                <th>Amount in USD</th>
+                <th className="App-table-cell" >Amount</th>
+                <th className="App-table-cell" >Currency</th>
+                <th className="App-table-cell" >Amount in USD</th>
               </tr>
             </thead>
             <tbody>

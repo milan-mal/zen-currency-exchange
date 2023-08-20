@@ -40,11 +40,23 @@
   padding: 5vh;
 }
 
+.App-table-cell {
+  padding-inline: 12px;
+  padding-bottom: 6px;
+}
+
 .App-form-amount {
   display: flex;
   flex-direction: row;
-  align-items: top;
+  align-items: center;
   justify-content: center;
+}
+
+.App-form-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-inline: 5px;
 }
 
 .App-link {
