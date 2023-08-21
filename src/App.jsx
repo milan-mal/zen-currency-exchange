@@ -14,12 +14,19 @@ function App() {
   const [conversionHistory, setConversionHistory] = useState([])
   const [messageError, setErrorMessage] = useState(null)
 
+  const currencyList = [
+    defaultCurrency,
+    'GBP',
+    'CZK',
+    'RUB'
+  ]
+
   useEffect(() => {
     if (amount !== ''){
       currencyService
         .convert(currency, amount)
         .then(function (object) {
-          const rateForAmount = object.rates && object.rates[currency] ? object.rates[currency].rate_for_amount : 0
+          const rateForAmount = object.rates && object.rates['USD'] ? object.rates['USD'].rate_for_amount : 0
           setConvertedAmount(rateForAmount)
         })
         .catch((error) => {
@@ -30,10 +37,16 @@ function App() {
   }, [currency, amount])
 
   const handleAmountChange = (event) => {
-    console.log('currency', currency)
     const inputAmount = event.target.value
     if( /^\d*\.?\d*$/.test(inputAmount) ){
       setAmount(inputAmount)
+    }
+    if( inputAmount.trim().length === 0 ){
+      console.log('⛔️ amount is empty')
+      setErrorMessage('⛔️ amount is empty')
+    } else {
+      console.log('✅ amount is not empty')
+      setErrorMessage('')
     }
   }
 
@@ -93,8 +106,9 @@ function App() {
                 onChange={handleCurrencyChange}
                 value={currency}
               >
-                <option value={defaultCurrency} >{defaultCurrency}</option>
-                <option value='GBP' >GBP</option>
+                {currencyList.map((currency, index) =>
+                  <option key={index} value={currency} >{currency}</option>
+                )}
               </select>
             </div>
           </div>
