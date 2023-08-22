@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 
+import './App.css';
 import NotificationError from './components/NotificationError'
 import currencyService from './services/currencies'
 
@@ -79,9 +80,9 @@ function App() {
   }
 
   return (
-    <div>
-      <header>
-        <h1 className="font-serif" >
+    <div className="App">
+      <header className="App-header">
+        <h1>
           Currency exchange
         </h1>
       </header>
