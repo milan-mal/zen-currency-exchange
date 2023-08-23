@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 
-import './App.css';
 import NotificationError from './components/NotificationError'
 import currencyService from './services/currencies'
 
@@ -27,7 +26,7 @@ function App() {
         .convert(currency, amount)
         .then(function (object) {
           const rateForAmount = object.rates && object.rates['USD'] ? object.rates['USD'].rate_for_amount : 0
-          setConvertedAmount(rateForAmount)
+          setConvertedAmount(new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(rateForAmount))
         })
         .catch((error) => {
           console.log(error)
@@ -66,7 +65,7 @@ function App() {
     console.log('✅ amount is not empty')
     
     const newConversion = {
-      amount: amount,
+      amount: new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(amount),
       currency: currency,
       convertedAmount: convertedAmount
     }
@@ -131,9 +130,9 @@ function App() {
           <tbody>
             {conversionHistory.map((conversion, index) => (
               <tr key={index}>
-                <td>{conversion.amount}</td>
+                <td className="px-3 text-right" >{conversion.amount}</td>
                 <td>{conversion.currency}</td>
-                <td>{conversion.convertedAmount}</td>
+                <td className="px-3 text-right" >{conversion.convertedAmount}</td>
               </tr>
             ))}
           </tbody>
