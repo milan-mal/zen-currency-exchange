@@ -1,35 +1,3 @@
-.App-body {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: top;
-  padding: 5vh;
-  font-size: calc(10px + 1vmin);
-}
-
-.App-table-history {
-  padding: 5vh;
-}
-
-.App-table-cell {
-  padding-inline: 12px;
-  padding-bottom: 6px;
-}
-
-.App-form-amount {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-}
-
-.App-form-item {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-inline: 5px;
-}
 
 .App-link {
   color: #61dafb;

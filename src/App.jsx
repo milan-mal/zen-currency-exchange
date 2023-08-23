@@ -80,26 +80,26 @@ function App() {
   }
 
   return (
-    <div className="App bg-slate-800 text-slate-100" >
-      <header className="App-header p-8" >
-        <h1 className="text-3xl font-bold text-center" >
+    <div className="h-screen min-h-min bg-slate-800 text-slate-100" >
+      <header className="flex flex-row justify-center items-center h-1/5" >
+        <h1 className="text-4xl font-bold text-center" >
           Currency exchange
         </h1>
       </header>
-      <div className="App-body" >
+      <div className="text-lg h-screen flex flex-col items-center" >
         <form onSubmit={addConversion} className="text-center my-4" >
-          <div className="App-form-amount" >
-            <div className="App-form-item" >
-              <div className="App-form-item" >amount: </div>
+          <div className="flex flex-row items-center space-x-3" >
+            <div className="flex flex-row items-center space-x-3" >
+              <div>amount: </div>
               <input
-                  className="App-form-item"
+                  className="px-1 py-0.5 text-slate-800 text-base"
                   type="text"
                   inputMode="numeric"
                   value={amount}
                   onChange={handleAmountChange}
               />
             </div>
-            <div className="App-form-item" >
+            <div className="text-slate-800 text-base" >
               <select
                 id="currencies"
                 name="currencies"
@@ -113,19 +113,19 @@ function App() {
             </div>
           </div>
           <NotificationError messageError={messageError} />
-          <div>
+          <div className="p-1" >
               amount in USD: {convertedAmount}
           </div>
           <div>
-            <button type='submit' className="p-1 px-3 my-2 bg-slate-50 text-slate-800 font-bold rounded" >Save</button>
+            <button type='submit' className="p-0.5 px-3 my-2 bg-slate-50 text-slate-800 font-bold rounded" >Save</button>
           </div>
         </form>
-        <table className="App-table-history" >
+        <table className="my-8 text-center" >
           <thead>
             <tr>
-              <th className="App-table-cell" >Amount</th>
-              <th className="App-table-cell" >Currency</th>
-              <th className="App-table-cell" >Amount in USD</th>
+              <th className="px-3 pb-2" >Amount</th>
+              <th className="px-3 pb-2" >Currency</th>
+              <th className="px-3 pb-2" >Amount in USD</th>
             </tr>
           </thead>
           <tbody>
