@@ -80,14 +80,14 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>
+    <div className="App bg-slate-800 text-slate-100" >
+      <header className="App-header p-8" >
+        <h1 className="text-3xl font-bold text-center" >
           Currency exchange
         </h1>
       </header>
       <div className="App-body" >
-        <form onSubmit={addConversion} >
+        <form onSubmit={addConversion} className="text-center my-4" >
           <div className="App-form-amount" >
             <div className="App-form-item" >
               <div className="App-form-item" >amount: </div>
@@ -117,27 +117,27 @@ function App() {
               amount in USD: {convertedAmount}
           </div>
           <div>
-            <button type='submit' >Save</button>
+            <button type='submit' className="p-1 px-3 my-2 bg-slate-50 text-slate-800 font-bold rounded" >Save</button>
           </div>
-          <table className="App-table-history" >
-            <thead>
-              <tr>
-                <th className="App-table-cell" >Amount</th>
-                <th className="App-table-cell" >Currency</th>
-                <th className="App-table-cell" >Amount in USD</th>
-              </tr>
-            </thead>
-            <tbody>
-              {conversionHistory.map((conversion, index) => (
-                <tr key={index}>
-                  <td>{conversion.amount}</td>
-                  <td>{conversion.currency}</td>
-                  <td>{conversion.convertedAmount}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
         </form>
+        <table className="App-table-history" >
+          <thead>
+            <tr>
+              <th className="App-table-cell" >Amount</th>
+              <th className="App-table-cell" >Currency</th>
+              <th className="App-table-cell" >Amount in USD</th>
+            </tr>
+          </thead>
+          <tbody>
+            {conversionHistory.map((conversion, index) => (
+              <tr key={index}>
+                <td>{conversion.amount}</td>
+                <td>{conversion.currency}</td>
+                <td>{conversion.convertedAmount}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );
