@@ -9,7 +9,7 @@ function App() {
 
   const [amount, setAmount] = useState('')
   const [currency, setCurrency] = useState(defaultCurrency)
-  const [convertedAmount, setConvertedAmount] = useState(0)
+  const [rate, setRate] = useState(0)
   const [conversionHistory, setConversionHistory] = useState([])
   const [messageError, setErrorMessage] = useState(null)
 
@@ -21,19 +21,17 @@ function App() {
   ]
 
   useEffect(() => {
-    if (amount !== ''){
-      currencyService
-        .convert(currency, amount)
-        .then(function (object) {
-          const rateForAmount = object.rates && object.rates['USD'] ? object.rates['USD'].rate_for_amount : 0
-          setConvertedAmount(new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(rateForAmount))
-        })
-        .catch((error) => {
-          console.log(error)
-          setConvertedAmount(0)
-        })
-    }
-  }, [currency, amount])
+    currencyService
+      .convert(currency)
+      .then(function (object) {
+        const rate = object.rates && object.rates['USD'] ? object.rates['USD'].rate : 0
+        setRate(rate)
+      })
+      .catch((error) => {
+        console.log(error)
+        setRate(0)
+      })
+  }, [currency])
 
   const handleAmountChange = (event) => {
     const inputAmount = event.target.value
@@ -67,14 +65,13 @@ function App() {
     const newConversion = {
       amount: new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(amount),
       currency: currency,
-      convertedAmount: convertedAmount
+      convertedAmount: new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(rate * amount)
     }
 
     setConversionHistory([...conversionHistory, newConversion])
 
     setCurrency(defaultCurrency)
     setAmount('')
-    setConvertedAmount(0)
     setErrorMessage(null)
   }
 
@@ -113,13 +110,13 @@ function App() {
           </div>
           <NotificationError messageError={messageError} />
           <div className="p-1" >
-              amount in USD: {convertedAmount}
+              amount in USD: {rate * amount}
           </div>
           <div>
             <button type='submit' className="p-0.5 px-3 my-2 bg-slate-50 text-slate-800 font-bold rounded" >Save</button>
           </div>
         </form>
-        <table className="my-8 text-center" >
+        <table className="my-8 text-right" >
           <thead>
             <tr>
               <th className="px-3 pb-2" >Amount</th>
@@ -130,9 +127,9 @@ function App() {
           <tbody>
             {conversionHistory.map((conversion, index) => (
               <tr key={index}>
-                <td className="px-3 text-right" >{conversion.amount}</td>
+                <td className="px-3" >{conversion.amount}</td>
                 <td>{conversion.currency}</td>
-                <td className="px-3 text-right" >{conversion.convertedAmount}</td>
+                <td className="px-3" >{conversion.convertedAmount}</td>
               </tr>
             ))}
           </tbody>
