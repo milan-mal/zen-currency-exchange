@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react'
+import sumBy from 'lodash.sumby'
 
 import NotificationError from './components/NotificationError'
 import currencyService from './services/currencies'
@@ -11,6 +12,7 @@ function App() {
   const [currency, setCurrency] = useState(defaultCurrency)
   const [rate, setRate] = useState(0)
   const [conversionHistory, setConversionHistory] = useState([])
+  const [sumUsdAmount, setSumUsdAmount] = useState(0)
   const [messageError, setErrorMessage] = useState(null)
 
   const currencyList = [
@@ -32,6 +34,14 @@ function App() {
         setRate(0)
       })
   }, [currency])
+
+  useEffect(() => {
+    setSumUsdAmount(
+      new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(
+        sumBy(conversionHistory, row => Number(row.convertedAmount))
+      )
+    )
+  }, [conversionHistory])
 
   const handleAmountChange = (event) => {
     const inputAmount = event.target.value
@@ -70,14 +80,17 @@ function App() {
 
     setConversionHistory([...conversionHistory, newConversion])
 
+    console.log('conversionHistory', conversionHistory)
+    console.log('sumUSD', sumUsdAmount)
+
     setCurrency(defaultCurrency)
     setAmount('')
     setErrorMessage(null)
   }
 
   return (
-    <div className="bg-slate-800 text-slate-100" >
-      <header className="flex flex-row justify-center items-center py-8" >
+    <div className="min-h-screen bg-slate-800 text-slate-100" >
+      <header className="flex flex-row justify-center items-center py-10" >
         <h1 className="text-4xl font-bold text-center" >
           Currency exchange
         </h1>
@@ -109,11 +122,9 @@ function App() {
             </div>
           </div>
           <NotificationError messageError={messageError} />
-          <div className="p-1" >
-              amount in USD: {rate * amount}
-          </div>
+          <div className="p-1" >amount in USD: {rate * amount}</div>
           <div>
-            <button type='submit' className="px-3 my-2 bg-slate-50 text-slate-800 rounded" >Save</button>
+            <button type='submit' className="px-3 py-0.5 my-2 bg-slate-50 text-base text-slate-800 rounded" >Save</button>
           </div>
         </form>
         <table className="my-8 text-right" >
@@ -127,12 +138,19 @@ function App() {
           <tbody>
             {conversionHistory.map((conversion, index) => (
               <tr key={index}>
-                <td className="px-3 pt-1" >{conversion.amount}</td>
-                <td className="px-3 pt-1" >{conversion.currency}</td>
-                <td className="px-3 pt-1" >{conversion.convertedAmount}</td>
+                <td className="px-3 py-1" >{conversion.amount}</td>
+                <td className="px-3 py-1" >{conversion.currency}</td>
+                <td className="px-3 py-1" >{conversion.convertedAmount}</td>
               </tr>
             ))}
           </tbody>
+          <tfoot>
+            <tr className="border-t border-slate-400" >
+              <td className="px-3 pt-1.5" ></td>
+              <td className="px-3 pt-1.5" ></td>
+              <td className="px-3 pt-1.5" >Sum: {sumUsdAmount}</td>
+            </tr>
+          </tfoot>
         </table>
       </div>
     </div>
