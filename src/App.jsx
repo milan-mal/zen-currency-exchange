@@ -76,13 +76,13 @@ function App() {
   }
 
   return (
-    <div className="h-screen min-h-min bg-slate-800 text-slate-100" >
-      <header className="flex flex-row justify-center items-center h-1/5" >
+    <div className="bg-slate-800 text-slate-100" >
+      <header className="flex flex-row justify-center items-center py-8" >
         <h1 className="text-4xl font-bold text-center" >
           Currency exchange
         </h1>
       </header>
-      <div className="text-lg h-screen flex flex-col items-center" >
+      <div className="text-lg flex flex-col items-center" >
         <form onSubmit={addConversion} className="text-center my-4" >
           <div className="flex flex-row items-center space-x-3" >
             <div className="flex flex-row items-center space-x-3" >
@@ -113,23 +113,23 @@ function App() {
               amount in USD: {rate * amount}
           </div>
           <div>
-            <button type='submit' className="p-0.5 px-3 my-2 bg-slate-50 text-slate-800 font-bold rounded" >Save</button>
+            <button type='submit' className="px-3 my-2 bg-slate-50 text-slate-800 rounded" >Save</button>
           </div>
         </form>
         <table className="my-8 text-right" >
           <thead>
-            <tr>
-              <th className="px-3 pb-2" >Amount</th>
-              <th className="px-3 pb-2" >Currency</th>
-              <th className="px-3 pb-2" >Amount in USD</th>
+            <tr className="border-b border-slate-400" >
+              <th className="px-3 pb-1.5" >Amount</th>
+              <th className="px-3 pb-1.5" >Currency</th>
+              <th className="px-3 pb-1.5" >Amount in USD</th>
             </tr>
           </thead>
           <tbody>
             {conversionHistory.map((conversion, index) => (
               <tr key={index}>
-                <td className="px-3" >{conversion.amount}</td>
-                <td>{conversion.currency}</td>
-                <td className="px-3" >{conversion.convertedAmount}</td>
+                <td className="px-3 pt-1" >{conversion.amount}</td>
+                <td className="px-3 pt-1" >{conversion.currency}</td>
+                <td className="px-3 pt-1" >{conversion.convertedAmount}</td>
               </tr>
             ))}
           </tbody>
